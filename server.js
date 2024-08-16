@@ -30,10 +30,11 @@ async function fserver(url) {
 }
 const port = 8080;
 let vdata;
+let vdata1;
 let vtext='';
 createServer(async function (req, res) {
     console.log(`serverjs;createServer();url=${req.url};`) ;
-    const vdata = await fserver(req.url);
+    vdata = await fserver(req.url);
     // console.log(vdata);
     // if (req.url === './client.js') {
     //   vtext = vdata;
@@ -46,12 +47,14 @@ createServer(async function (req, res) {
         res.writeHead(200, {'Content-Type': 'text/javascript'});
     }
     if (req.url === '/api/cat-names') {
+        console.log("serverjs;if('/api/cat-names')");
+        vdata=JSON.stringify(vdata);
         res.writeHead(200, {'Content-Type': 'application/json'});
     }
     if (req.url='./installHook.js.map') {
        // disable your react tools extension
     }
-    
+    console.log("serverjs;createServer();before res.end()");
     res.end(vdata);
 
 }).listen(port,(err)=>{

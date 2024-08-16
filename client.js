@@ -7,7 +7,8 @@ function fexec() {
 if (document.readyState === "loading"){
     document.addEventListener("DOMContentLoaded",fexec);
 } else { fexec(); }
-const catNames = [
+let catNames = [];
+  catNames = [
     "Alonzo",
     "Bill Bailey", 
     "Bombalurina",
@@ -16,12 +17,11 @@ const catNames = [
     "Nigura",
 ];
 async function onClick() {
-    console.log(`clientjs;onClick();catNames:${catNames}`)
-/**
- const response await fetch('/api/cat-names');
- const json = await response.json();
- const { catNames} = json;
- */
+    console.log("clientjs;onClick()");
+  const response = await fetch('/api/cat-names');
+  const json = await response.json();
+  const { catNames} = json;
+ console.log(`clientjs;onClick();catNames:${catNames}`)
   const index = Math.floor(Math.random()*catNames.length);
 console.log(`clientjs:onClick();index=${index}`);
   const catName = catNames[index];
