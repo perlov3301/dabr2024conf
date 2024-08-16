@@ -15,7 +15,17 @@ async function fserver(url) {
           <link rel="stylesheet href="style.css" />
         </head>
         <body>
-          <script src="client.js"></script>
+          <script >
+           async function onClick() {
+             console.log("serverjs;onClick()");
+             const response = await fetch('/api/cat-names');
+             const json = await response.json();
+             const { catNames} = json;
+             const index = Math.floor(Math.random()*catNames.length);
+             const catName = catNames[index];
+             document.body.innerText= catName;
+}
+          </script>
           <button onClick="onClick()">
             Reveal
           </button> 
@@ -28,18 +38,13 @@ async function fserver(url) {
     return readFile('./client.js', 'utf8');
   }
 }
+
 const port = 8080;
 let vdata;
-let vdata1;
-let vtext='';
 createServer(async function (req, res) {
     console.log(`serverjs;createServer();url=${req.url};`) ;
     vdata = await fserver(req.url);
-    // console.log(vdata);
-    // if (req.url === './client.js') {
-    //   vtext = vdata;
-    // }
-    // console.log(vtext);
+    
     if (req.url==='/') {
         res.writeHead(200, {'Content-Type':'text/html'});
     }  
@@ -47,7 +52,6 @@ createServer(async function (req, res) {
         res.writeHead(200, {'Content-Type': 'text/javascript'});
     }
     if (req.url === '/api/cat-names') {
-        console.log("serverjs;if('/api/cat-names')");
         vdata=JSON.stringify(vdata);
         res.writeHead(200, {'Content-Type': 'application/json'});
     }
