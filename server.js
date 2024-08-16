@@ -3,15 +3,11 @@ import  {readFile} from 'fs/promises';
 const port = 8080;
 
 async function fserver(url) {
-  if (url === '/api/cat-names') {
+  
+  if (url==='/') {
     const catFile = await readFile('./cats.txt','utf8');
     const catNames = catFile.split('\n');
     const json = { catNames };
-    return json;
-  }
-  if (url==='/') {
-    const response = await fetch(`http://localhost:${port}/api/cat-names`);
-    const json = await response.json();
     return  `<!doctype html>
       <html>
         <head>
