@@ -1,5 +1,6 @@
 import { createServer } from 'http';
 import  {readFile} from 'fs/promises';
+const port = 8080;
 
 async function fserver(url) {
   if (url === '/api/cat-names') {
@@ -9,6 +10,8 @@ async function fserver(url) {
     return json;
   }
   if (url==='/') {
+    const response = await fetch(`http://localhost:${port}/api/cat-names`);
+    const json = await response.json();
     return  `<!doctype html>
       <html>
         <head>
@@ -16,11 +19,10 @@ async function fserver(url) {
         </head>
         <body>
           <script >
-           async function onClick() {
+            function onClick() {
              console.log("serverjs;onClick()");
-             const response = await fetch('/api/cat-names');
-             const json = await response.json();
-             const { catNames} = json;
+             
+             const { catNames} = ${JSON.stringify(json)};
              const index = Math.floor(Math.random()*catNames.length);
              const catName = catNames[index];
              document.body.innerText= catName;
@@ -39,7 +41,7 @@ async function fserver(url) {
   }
 }
 
-const port = 8080;
+
 let vdata;
 createServer(async function (req, res) {
     console.log(`serverjs;createServer();url=${req.url};`) ;
