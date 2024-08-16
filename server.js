@@ -7,7 +7,9 @@ async function fserver(url) {
   if (url==='/') {
     const catFile = await readFile('./cats.txt','utf8');
     const catNames = catFile.split('\n');
-    const json = { catNames };
+    const index = Math.floor(Math.random()*catNames.length);
+    const catName = catNames[index];
+    const json = { catName };
     return  `<!doctype html>
       <html>
         <head>
@@ -18,9 +20,8 @@ async function fserver(url) {
             function onClick() {
              console.log("serverjs;onClick()");
              
-             const { catNames} = ${JSON.stringify(json)};
-             const index = Math.floor(Math.random()*catNames.length);
-             const catName = catNames[index];
+             const { catName} = ${JSON.stringify(json)};
+             
              document.body.innerText= catName;
 }
           </script>
